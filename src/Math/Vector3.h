@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <cmath>
+
 class Vector3 {
 public:
     float x = 0, y = 0, z = 0;
@@ -125,6 +127,10 @@ inline Vector3 operator*(const Vector3& v, float t) {
     return Vector3(v.x * t, v.y * t, v.z * t);
 }
 inline Vector3 operator*(float t, const Vector3& v) { return Vector3(v * t); }
+
+inline Vector3 operator-(const Vector3& v) {
+    return Vector3(-v.x, -v.y, -v.z);
+}
 
 inline float Dot(const Vector3& v, const Vector3& t) {
     return v.x * t.x + v.y * t.y + v.z * t.z;

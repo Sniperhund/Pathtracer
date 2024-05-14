@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Math/Vector3.h"
+#include "Math/Utility.h"
 
 #include <vector>
 #include <string>
@@ -20,9 +21,9 @@ public:
     }
 
     void SetPixel(int x, int y, Vector3 color) {
-        m_pixels[4 * m_width * y + 4 * x + 0] = int(255.999 * color.x);
-        m_pixels[4 * m_width * y + 4 * x + 1] = int(255.999 * color.y);
-        m_pixels[4 * m_width * y + 4 * x + 2] = int(255.999 * color.z);
+        m_pixels[4 * m_width * y + 4 * x + 0] = int(255.999 * Clamp(0, 1, color.x));
+        m_pixels[4 * m_width * y + 4 * x + 1] = int(255.999 * Clamp(0, 1, color.y));
+        m_pixels[4 * m_width * y + 4 * x + 2] = int(255.999 * Clamp(0, 1, color.z));
         m_pixels[4 * m_width * y + 4 * x + 3] = 255;
     }
 

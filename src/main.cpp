@@ -2,28 +2,30 @@
 #include <cstdlib>
 #include "Image.h"
 #include "Objects/Camera.h"
-
-Vector3 RayColor(const Ray& ray) {
-    Vector3 unitDirection = Normalize(ray.direction);
-    float a = 0.5f * (unitDirection.y + 1.0f);
-    return (1.0f - a) * Vector3(1) + a * Vector3(0.5f, 0.7f, 1.0f);
-}
+#include "Math/Vector3.h"
+#include "Objects/HitRecord.h"
+#include "Objects/Scene.h"
+#include "Math/Utility.h"
+#include "Objects/Sphere.h"
+#include "Pathtracer.h"
 
 int main() {
-    int width = 1920, height = 1080;
-    Image image = Image(width, height);
+    GlobalSettings::width = 1920;
+    GlobalSettings::height = 1080;
+    GlobalSettings::samplesPerPixel = 10;
 
-    Camera camera(Vector3(), 1.0f, (float)width, (float)height);
+    Pathtracer pathtracer;
 
-    for (int x = 0; x < width; x++) {
-        for (int y = 0; y < height; y++) {
-            Vector3 color = RayColor(camera.GetRay(x, y));
+    std::shared_ptr<Scene> scene = pathtracer.GetScene();
 
-            image.SetPixel(x, y, color);
-        }
-    }
+    scene->AddObject(std::make_shared<Sphere>(Vector3(0, 0, -1), 0.5f));
+    scene->AddObject(std::make_shared<Sphere>(Vector3(0, -100.5f, -1), 100));
 
-    image.Save("../output.png");
+    std::shared_ptr<Camera> camera = pathtracer.GetCamera();
+    camera->origin = Vector3();
+    camera->focalLength = 1.0f;
+
+    pathtracer.Render("../output.png");
 
     return 0;
 }
