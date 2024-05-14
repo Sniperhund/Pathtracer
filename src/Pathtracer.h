@@ -6,11 +6,12 @@
 #include "Objects/Scene.h"
 #include "Objects/Camera.h"
 #include "GlobalSettings.h"
+#include "ThreadPool.h"
 
 class Pathtracer {
 public:
     Pathtracer() {
-        if (GlobalSettings::width == -1 || GlobalSettings::height == -1 || GlobalSettings::samplesPerPixel == -1) {
+        if (GlobalSettings::width == -1 || GlobalSettings::height == -1 || GlobalSettings::samplesPerPixel == -1 || GlobalSettings::maxDepth == -1) {
             throw std::runtime_error("Remember to set all the Global Settings variables before constructing the Pathtracer class");
         }
 
@@ -28,7 +29,7 @@ public:
 
                 for (int i = 0; i < GlobalSettings::samplesPerPixel; i++) {
                     Ray ray = m_camera->GetRay(x, y);
-                    color += m_camera->RayColor(x, y, *m_scene, ray);
+                    color += m_camera->RayColor(*m_scene, ray, GlobalSettings::maxDepth);
                 }
 
                 color *= pixelSamplesScale;

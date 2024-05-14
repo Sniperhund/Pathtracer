@@ -21,9 +21,9 @@ public:
     }
 
     void SetPixel(int x, int y, Vector3 color) {
-        m_pixels[4 * m_width * y + 4 * x + 0] = int(255.999 * Clamp(0, 1, color.x));
-        m_pixels[4 * m_width * y + 4 * x + 1] = int(255.999 * Clamp(0, 1, color.y));
-        m_pixels[4 * m_width * y + 4 * x + 2] = int(255.999 * Clamp(0, 1, color.z));
+        m_pixels[4 * m_width * y + 4 * x + 0] = int(255.999 * Clamp(0, 1, LinearToGamma(color.x)));
+        m_pixels[4 * m_width * y + 4 * x + 1] = int(255.999 * Clamp(0, 1, LinearToGamma(color.y)));
+        m_pixels[4 * m_width * y + 4 * x + 2] = int(255.999 * Clamp(0, 1, LinearToGamma(color.z)));
         m_pixels[4 * m_width * y + 4 * x + 3] = 255;
     }
 
@@ -34,6 +34,13 @@ public:
     }
 
 private:
+    inline float LinearToGamma(float linear) {
+        if (linear > 0)
+            return sqrt(linear);
+
+        return 0;
+    }
+
     std::vector<unsigned char> m_pixels;
     int m_width, m_height;
 };

@@ -16,6 +16,11 @@ add_executable(Pathtracer src/main.cpp src/Image.h src/Math/Vector3.h
         src/Pathtracer.h
         src/GlobalSettings.cpp
         src/GlobalSettings.h
+        src/Material/Material.h
+        src/Material/Lambertian.h
+        src/Material/Metal.h
+        src/Material/Dielectric.h
 )
 
 target_link_libraries(Pathtracer lodepng)
+target_include_directories(Pathtracer PRIVATE Libs/threadpool)

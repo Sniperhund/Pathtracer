@@ -4,7 +4,10 @@
 
 #include "GlobalSettings.h"
 
-int GlobalSettings::samplesPerPixel = -1;
-
 int GlobalSettings::width = -1;
 int GlobalSettings::height = -1;
+
+int GlobalSettings::samplesPerPixel = -1;
+int GlobalSettings::maxDepth = -1;
+
+bool GlobalSettings::antialias = true;

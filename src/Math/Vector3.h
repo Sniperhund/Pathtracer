@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cmath>
+#include "Utility.h"
 
 class Vector3 {
 public:
@@ -86,6 +87,19 @@ public:
     float Squared() const {
         return x * x + y * y + z * z;
     }
+
+    bool NearZero() const {
+        float s = 1e-8;
+        return (fabsf(x) < s) && (fabsf(y) < s) && (fabsf(z) < s);
+    }
+
+    static Vector3 Random() {
+        return Vector3(RandomFloat(), RandomFloat(), RandomFloat());
+    }
+
+    static Vector3 Random(float min, float max) {
+        return Vector3(RandomFloat(min, max), RandomFloat(min, max), RandomFloat(min, max));
+    }
 };
 
 inline std::ostream& operator<<(std::ostream& out, const Vector3& v) {
@@ -144,4 +158,43 @@ inline Vector3 Cross(const Vector3& v, const Vector3& t) {
 
 inline Vector3 Normalize(const Vector3& v) {
     return v / v.Length();
+}
+
+inline Vector3 RandomInNormalizedSphere() {
+    while (true) {
+        Vector3 p = Vector3::Random(-1, 1);
+        if (p.Squared() < 1)
+            return p;
+    }
+}
+
+inline Vector3 RandomNormalizedVector() {
+    return Normalize(RandomInNormalizedSphere());
+}
+
+inline Vector3 RandomOnHemisphere(const Vector3& normal) {
+    Vector3 onNormalizedSphere = RandomNormalizedVector();
+    if (Dot(onNormalizedSphere, normal) > 0.0f)
+        return onNormalizedSphere;
+    else
+        return -onNormalizedSphere;
+}
+
+inline Vector3 RandomInUnitDisk() {
+    while (true) {
+        Vector3 p = Vector3(RandomFloat(-1, 1), RandomFloat(-1, 1), 0);
+        if (p.Squared() < 1)
+            return p;
+    }
+}
+
+inline Vector3 Reflect(const Vector3& v, const Vector3& t) {
+    return v - 2 * Dot(v, t) * t;
+}
+
+inline Vector3 Refract(const Vector3& uv, const Vector3& v, float etaiOverEtat) {
+    float cosTheta = fmin(Dot(-uv, v), 1.0f);
+    Vector3 rOutPerp = etaiOverEtat * (uv + cosTheta * v);
+    Vector3 rOutParallel = -sqrt(fabsf(1.0f - rOutPerp.Squared())) * v;
+    return rOutPerp + rOutParallel;
 }

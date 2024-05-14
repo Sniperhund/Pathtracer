@@ -7,9 +7,12 @@
 #include "../Math/Vector3.h"
 #include "../Math/Ray.h"
 
+struct Material;
+
 struct HitRecord {
     Vector3 origin;
     Vector3 normal;
+    std::shared_ptr<Material> material;
     float t;
     bool frontFace;
 
