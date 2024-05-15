@@ -28,6 +28,28 @@ public:
         this->z = z;
     }
 
+    float& operator[](int index) {
+        if (index == 0)
+            return x;
+        else if (index == 1)
+            return y;
+        else if (index == 2)
+            return z;
+        else
+            throw std::out_of_range("Index out of range");
+    }
+
+    const float& operator[](int index) const {
+        if (index == 0)
+            return x;
+        else if (index == 1)
+            return y;
+        else if (index == 2)
+            return z;
+        else
+            throw std::out_of_range("Index out of range");
+    }
+
     Vector3& operator+=(const Vector3& v) {
         this->x += v.x;
         this->y += v.y;

@@ -15,7 +15,7 @@
 int main() {
     GlobalSettings::width = 1920;
     GlobalSettings::height = 1080;
-    GlobalSettings::samplesPerPixel = 1024;
+    GlobalSettings::samplesPerPixel = 5;
     GlobalSettings::maxDepth = 10;
     GlobalSettings::antialias = true;
 
@@ -66,6 +66,8 @@ int main() {
     camera->vfov = 25;
     camera->defocusAngle = 0.6f;
     camera->focusDist = 10.0f;
+
+    scene->BuildBVH();
 
     auto start = std::chrono::high_resolution_clock::now();
 

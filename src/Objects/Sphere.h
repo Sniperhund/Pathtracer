@@ -42,6 +42,11 @@ public:
         return true;
     }
 
+    bool BoundingBox(AABB &outputBox) const override {
+        outputBox = AABB(m_origin - Vector3(m_radius), m_origin + Vector3(m_radius));
+        return true;
+    }
+
 private:
     Vector3 m_origin;
     float m_radius;

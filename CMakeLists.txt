@@ -20,6 +20,8 @@ add_executable(Pathtracer src/main.cpp src/Image.h src/Math/Vector3.h
         src/Material/Lambertian.h
         src/Material/Metal.h
         src/Material/Dielectric.h
+        src/Objects/AABB.h
+        src/Objects/BVHNode.h
 )
 
 target_link_libraries(Pathtracer lodepng)
