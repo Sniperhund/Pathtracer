@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 26)
 
 add_subdirectory(Libs/lodepng)
 
-add_executable(Pathtracer src/main.cpp src/Image.h src/Math/Vector3.h
+add_library(Pathtracer src/Image.h src/Math/Vector3.h
         src/Math/Ray.h
         src/Objects/Camera.h
         src/Objects/Object.h
@@ -25,3 +25,10 @@ add_executable(Pathtracer src/main.cpp src/Image.h src/Math/Vector3.h
 )
 
 target_link_libraries(Pathtracer lodepng)
+target_include_directories(Pathtracer PUBLIC ./src)
+
+project(Pathtracer-exe)
+
+add_executable(Pathtracer-exe src/main.cpp)
+
+target_link_libraries(Pathtracer-exe Pathtracer)
