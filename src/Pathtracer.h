@@ -6,7 +6,6 @@
 #include "Objects/Scene.h"
 #include "Objects/Camera.h"
 #include "GlobalSettings.h"
-#include "ThreadPool.h"
 
 class Pathtracer {
 public:

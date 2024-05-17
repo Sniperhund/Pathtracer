@@ -25,4 +25,3 @@ add_executable(Pathtracer src/main.cpp src/Image.h src/Math/Vector3.h
 )
 
 target_link_libraries(Pathtracer lodepng)
-target_include_directories(Pathtracer PRIVATE Libs/threadpool)

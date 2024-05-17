@@ -15,7 +15,7 @@
 int main() {
     GlobalSettings::width = 1920;
     GlobalSettings::height = 1080;
-    GlobalSettings::samplesPerPixel = 5;
+    GlobalSettings::samplesPerPixel = 100;
     GlobalSettings::maxDepth = 10;
     GlobalSettings::antialias = true;
 
