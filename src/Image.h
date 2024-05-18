@@ -42,6 +42,6 @@ private:
         return 0;
     }
 
-    std::vector<unsigned char> m_pixels;
+    std::vector<unsigned char> m_pixels = std::vector<unsigned char>();
     int m_width, m_height;
 };

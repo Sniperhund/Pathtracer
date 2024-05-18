@@ -10,9 +10,11 @@
 class Pathtracer {
 public:
     Pathtracer() {
+#ifndef PATHTRACER_IGNORE_GLOBALSETTINGS
         if (GlobalSettings::width == -1 || GlobalSettings::height == -1 || GlobalSettings::samplesPerPixel == -1 || GlobalSettings::maxDepth == -1) {
             throw std::runtime_error("Remember to set all the Global Settings variables before constructing the Pathtracer class");
         }
+#endif
 
         m_image = std::make_shared<Image>(GlobalSettings::width, GlobalSettings::height);
     }
