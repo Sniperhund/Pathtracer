@@ -7,6 +7,7 @@
 #include <memory>
 #include "../Math/Vector3.h"
 #include "../Math/Ray.h"
+#include "Material/Material.h"
 #include "Scene.h"
 #include "../Math/Utility.h"
 #include "../GlobalSettings.h"
