@@ -14,10 +14,10 @@ public:
             throw std::runtime_error("Remember to set all the Global Settings variables before constructing the Pathtracer class");
         }
 
-        m_image = Image(GlobalSettings::width, GlobalSettings::height);
+        m_image = std::make_shared<Image>(GlobalSettings::width, GlobalSettings::height);
     }
 
-    void Render(std::string outputFile) {
+    void Render(std::string outputFile = "") {
         m_camera->CalculateValues();
 
         float pixelSamplesScale = 1.0f / GlobalSettings::samplesPerPixel;
@@ -33,17 +33,26 @@ public:
 
                 color *= pixelSamplesScale;
 
-                m_image.SetPixel(x, y, color);
+                m_image->SetPixel(x, y, color);
             }
         }
 
-        m_image.Save(outputFile);
+        if (!outputFile.empty())
+            m_image->Save(outputFile);
+    }
+
+    void Resize(int width, int height) {
+        GlobalSettings::width = width;
+        GlobalSettings::height = height;
+
+        m_image = std::make_shared<Image>(GlobalSettings::width, GlobalSettings::height);
     }
 
     std::shared_ptr<Scene> GetScene() { return m_scene; }
     std::shared_ptr<Camera> GetCamera() { return m_camera; }
+    std::shared_ptr<Image> GetImage() { return m_image; }
 private:
-    Image m_image = Image(0, 0);
+    std::shared_ptr<Image> m_image = std::make_shared<Image>(0, 0);
     std::shared_ptr<Scene> m_scene = std::make_shared<Scene>();
     std::shared_ptr<Camera> m_camera = std::make_shared<Camera>();
 };

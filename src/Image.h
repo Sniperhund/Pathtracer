@@ -33,6 +33,7 @@ public:
         if(error) std::cout << "encoder error " << error << ": "<< lodepng_error_text(error) << std::endl;
     }
 
+    std::vector<unsigned char> GetRawPixels() { return m_pixels; }
 private:
     inline float LinearToGamma(float linear) {
         if (linear > 0)
