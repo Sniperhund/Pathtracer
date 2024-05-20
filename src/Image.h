@@ -15,12 +15,21 @@
 class Image {
 public:
     Image(int width, int height) {
+        Resize(width, height);
+    }
+
+    void Resize(int width, int height) {
         m_pixels.resize(width * height * 4);
         m_width = width;
         m_height = height;
     }
 
     void SetPixel(int x, int y, Vector3 color) {
+        if (x < 0 || x >= m_width || y < 0 || y >= m_height) {
+            std::cerr << "SetPixel error: Coordinates (" << x << ", " << y << ") are out of bounds." << std::endl;
+            return;
+        }
+
         m_pixels[4 * m_width * y + 4 * x + 0] = int(255.999 * Clamp(0, 1, LinearToGamma(color.x)));
         m_pixels[4 * m_width * y + 4 * x + 1] = int(255.999 * Clamp(0, 1, LinearToGamma(color.y)));
         m_pixels[4 * m_width * y + 4 * x + 2] = int(255.999 * Clamp(0, 1, LinearToGamma(color.z)));
@@ -43,5 +52,5 @@ private:
     }
 
     std::vector<unsigned char> m_pixels = std::vector<unsigned char>();
-    int m_width, m_height;
+    int m_width = -1, m_height = -1;
 };

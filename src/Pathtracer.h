@@ -47,7 +47,7 @@ public:
         GlobalSettings::width = width;
         GlobalSettings::height = height;
 
-        m_image = std::make_shared<Image>(GlobalSettings::width, GlobalSettings::height);
+        m_image->Resize(GlobalSettings::width, GlobalSettings::height);
     }
 
     std::shared_ptr<Scene> GetScene() { return m_scene; }

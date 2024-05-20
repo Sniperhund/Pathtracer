@@ -9,6 +9,7 @@
 
 #include "Object.h"
 #include "../Material/Material.h"
+#include "Material/Lambertian.h"
 
 class Sphere : public Object {
 public:
