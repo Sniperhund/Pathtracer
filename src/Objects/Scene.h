@@ -16,12 +16,19 @@ public:
         m_objects.push_back(object);
     }
 
+    void Clear() {
+        m_objects.clear();
+    }
+
     bool Hit(const Ray& ray, float rayTmin, float rayTmax, HitRecord& hit) const {
         HitRecord tempHit;
         bool hitAnything = false;
         float closestSoFar = rayTmax;
 
         for (std::shared_ptr<Object> object : m_objects) {
+            if (!object)
+                continue;
+
             if (object->Hit(ray, rayTmin, closestSoFar, tempHit)) {
                 hitAnything = true;
                 closestSoFar = tempHit.t;
@@ -48,6 +55,9 @@ public:
     }
 
     void BuildBVH() {
+        if (m_objects.empty())
+            return;
+
         std::shared_ptr<BVHNode> bvhTree = std::make_shared<BVHNode>(m_objects);
         m_objects.clear();
         m_objects.push_back(bvhTree);

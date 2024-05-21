@@ -13,6 +13,7 @@
 
 class Sphere : public Object {
 public:
+    Sphere() : Sphere(Vector3(), 1.0f, std::make_shared<Lambertian>(Vector3(1))) {}
     Sphere(const Vector3& origin, float radius, std::shared_ptr<Material> material) : m_origin(origin), m_radius(radius), m_material(material) {}
 
     bool Hit(const Ray &ray, float rayTmin, float rayTmax, HitRecord &hit) const override {
