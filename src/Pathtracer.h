@@ -2,6 +2,8 @@
 // Created by Lucas on 14-05-2024.
 //
 
+#pragma once
+
 #include "Image.h"
 #include "Objects/Scene.h"
 #include "Objects/Camera.h"
@@ -18,6 +20,8 @@ public:
     std::shared_ptr<Scene> GetScene() { return m_scene; }
     std::shared_ptr<Camera> GetCamera() { return m_camera; }
     std::shared_ptr<Image> GetImage() { return m_image; }
+    int GetWidth() { return m_width; }
+    int GetHeight() { return m_height; }
 
     Property<int> samplesPerPixel = 1;
     Property<int> maxDepth = 2;
