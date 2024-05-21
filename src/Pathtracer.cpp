@@ -5,7 +5,8 @@
 #include "Pathtracer.h"
 
 Pathtracer::Pathtracer() {
-    m_image = std::make_shared<Image>(m_width, m_height);
+    m_image = std::make_shared<Image>(1, 1);
+
     Resize(128, 128);
 }
 
