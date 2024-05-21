@@ -14,14 +14,14 @@ add_library(Pathtracer src/Image.h src/Math/Vector3.h
         src/Objects/Scene.h
         src/Math/Utility.h
         src/Pathtracer.h
-        src/GlobalSettings.cpp
-        src/GlobalSettings.h
         src/Material/Material.h
         src/Material/Lambertian.h
         src/Material/Metal.h
         src/Material/Dielectric.h
         src/Objects/AABB.h
         src/Objects/BVHNode.h
+        src/Pathtracer.cpp
+        src/Util/Property.h
 )
 
 target_link_libraries(Pathtracer lodepng)

@@ -13,52 +13,18 @@
 #include "Material/Dielectric.h"
 
 int main() {
-    GlobalSettings::width = 1920;
-    GlobalSettings::height = 1080;
-    GlobalSettings::samplesPerPixel = 5;
-    GlobalSettings::maxDepth = 10;
-    GlobalSettings::antialias = true;
-
     Pathtracer pathtracer;
+
+    pathtracer.Resize(1920, 1080);
+    pathtracer.samplesPerPixel = 1;
+    pathtracer.maxDepth = 10;
+    pathtracer.antialias = true;
 
     std::shared_ptr<Scene> scene = pathtracer.GetScene();
 
     // Ground
     scene->AddObject(std::make_shared<Sphere>(Vector3(0, -1000, -1), 1000,
                                               std::make_shared<Lambertian>(Vector3(0.5f, 0.5f, 0.5f))));
-
-    for (int x = -11; x < 11; x++) {
-        for (int y = -11; y < 11; y++) {
-            float chooseMat = RandomFloat();
-            float radius = RandomFloat(0.1f, 0.3f);
-            Vector3 origin(x + 0.9f * RandomFloat(), radius, y + 0.9f * RandomFloat());
-
-            if ((origin - Vector3(4, 0.2f, 0)).Length() > 0.9f) {
-                std::shared_ptr<Material> sphereMaterial;
-
-                if (chooseMat < 0.8f) {
-                    Vector3 albedo = Vector3::Random() * Vector3::Random();
-                    sphereMaterial = std::make_shared<Lambertian>(albedo);
-                    scene->AddObject(std::make_shared<Sphere>(origin, radius, sphereMaterial));
-                } else if (chooseMat < 0.95f) {
-                    Vector3 albedo = Vector3::Random(0.5f, 1);
-                    float roughness = RandomFloat(0, 0.5f);
-                    sphereMaterial = std::make_shared<Metal>(albedo, roughness);
-                    scene->AddObject(std::make_shared<Sphere>(origin, radius, sphereMaterial));
-                } else {
-                    sphereMaterial = std::make_shared<Dielectric>(1.5f);
-                    scene->AddObject(std::make_shared<Sphere>(origin, radius, sphereMaterial));
-                }
-            }
-        }
-    }
-
-    scene->AddObject(std::make_shared<Sphere>(Vector3(0, 1, 0), 1,
-                                              std::make_shared<Lambertian>(Vector3(0.1f, 0.2f, 0.5f))));
-    scene->AddObject(std::make_shared<Sphere>(Vector3(-4, 1, 0), 1,
-                                              std::make_shared<Metal>(Vector3(0.8f, 0.6f, 0.2f), 0.3f)));
-    scene->AddObject(std::make_shared<Sphere>(Vector3(4, 1, 0), 1,
-                                              std::make_shared<Dielectric>(1.0f / 1.33f)));
 
     std::shared_ptr<Camera> camera = pathtracer.GetCamera();
     camera->origin = Vector3(13, 2, 3);

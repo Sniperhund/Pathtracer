@@ -10,23 +10,23 @@
 #include "Material/Material.h"
 #include "Scene.h"
 #include "../Math/Utility.h"
-#include "../GlobalSettings.h"
 
 class Camera {
 public:
     Vector3 origin = Vector3(), lookAt = Vector3();
     float vfov = 45, defocusAngle = 0, focusDist = 10;
+    bool antialias = true;
 
     Camera(Vector3 origin, Vector3 lookAt, float focalLength, float vfov)
             : origin(origin), lookAt(lookAt), vfov(vfov) {}
 
     Camera() {}
 
-    void CalculateValues() {
+    void CalculateValues(int width, int height) {
         float theta = DegreesToRadians(vfov);
         float h = tanf(theta / 2);
         m_viewportHeight = 2 * h * focusDist;
-        m_viewportWidth = m_viewportHeight * ((float)GlobalSettings::width / (float)GlobalSettings::height);
+        m_viewportWidth = m_viewportHeight * ((float)width / (float)height);
 
         m_w = Normalize(origin - lookAt);
         m_u = Normalize(Cross(Vector3(0, 1, 0), m_w));
@@ -35,8 +35,8 @@ public:
         m_viewportU = m_viewportWidth * m_u;
         m_viewportV = m_viewportHeight * -m_v;
 
-        m_pixelDeltaU = m_viewportU / (float)GlobalSettings::width;
-        m_pixelDeltaV = m_viewportV / (float)GlobalSettings::height;
+        m_pixelDeltaU = m_viewportU / (float)width;
+        m_pixelDeltaV = m_viewportV / (float)height;
 
         m_viewportUpperLeft = origin - (focusDist * m_w) - m_viewportU / 2 - m_viewportV / 2;
         m_pixel00Loc = m_viewportUpperLeft + 0.5f * (m_pixelDeltaU + m_pixelDeltaV);
@@ -49,7 +49,7 @@ public:
     Ray GetRay(int x, int y) {
         Vector3 offset;
 
-        if (GlobalSettings::antialias)
+        if (antialias)
             offset = SampleSquare();
 
         Vector3 pixelSample = m_pixel00Loc + (((float)x + offset.x) * m_pixelDeltaU) + (((float)y + offset.y) * m_pixelDeltaV);
