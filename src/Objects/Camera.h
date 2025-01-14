@@ -65,7 +65,7 @@ public:
             return Vector3(0);
 
         HitRecord hit;
-        if (scene.Hit(ray, 0.001f, infinity, hit)) {
+        if (scene.Hit(ray, 0.1f, infinity, hit)) {
             Ray scattered;
             Vector3 attenuation;
             if (hit.material->Scatter(ray, hit, attenuation, scattered))

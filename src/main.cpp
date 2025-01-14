@@ -15,23 +15,27 @@
 int main() {
     Pathtracer pathtracer;
 
-    pathtracer.Resize(1920, 1080);
-    pathtracer.samplesPerPixel = 1;
-    pathtracer.maxDepth = 10;
+    pathtracer.Resize(1280, 720);
+    pathtracer.samplesPerPixel = 1024 * 4;
+    pathtracer.maxDepth = 2;
+    pathtracer.threadCount = std::thread::hardware_concurrency();
     pathtracer.antialias = true;
 
     std::shared_ptr<Scene> scene = pathtracer.GetScene();
 
     // Ground
     scene->AddObject(std::make_shared<Sphere>(Vector3(0, -1000, -1), 1000,
-                                              std::make_shared<Lambertian>(Vector3(0.5f, 0.5f, 0.5f))));
+                                              std::make_shared<Metal>(Vector3(0.5f, 0.5f, 0.5f), 0.3f)));
+
+     scene->AddObject(std::make_shared<Sphere>(Vector3(0, 1, 0), 1,
+                                              std::make_shared<Lambertian>(Vector3(0.9f, 0.3f, 0.6f))));
 
     std::shared_ptr<Camera> camera = pathtracer.GetCamera();
     camera->origin = Vector3(13, 2, 3);
     camera->lookAt = Vector3(0, 0, 0);
     camera->vfov = 25;
-    camera->defocusAngle = 0.6f;
-    camera->focusDist = 10.0f;
+    camera->defocusAngle = 1;
+    camera->focusDist = 13.0f;
 
     scene->BuildBVH();
 

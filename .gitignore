@@ -1,4 +1,14 @@
 cmake-build-debug
 cmake-build-release
+build
+.cache
+
+CMakeFiles
+
 output.png
 .idea
+
+*.cmake
+Makefile
+
+.DS_Store

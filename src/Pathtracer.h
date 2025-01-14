@@ -8,6 +8,7 @@
 #include "Objects/Scene.h"
 #include "Objects/Camera.h"
 #include "Util/Property.h"
+#include <thread>
 
 class Pathtracer {
 public:
@@ -25,6 +26,7 @@ public:
 
     Property<int> samplesPerPixel = 1;
     Property<int> maxDepth = 2;
+    Property<int> threadCount = std::thread::hardware_concurrency();
     Property<bool> antialias = Property(true, std::function<void(bool)>(std::bind(&Pathtracer::AntialiasCallback, this, std::placeholders::_1)));
 private:
     std::shared_ptr<Image> m_image = std::make_shared<Image>(0, 0);
