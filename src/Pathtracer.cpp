@@ -17,27 +17,23 @@ void Pathtracer::Render(std::string outputFile) {
 
     float pixelSamplesScale = 1.0f / samplesPerPixel;
 
-    BS::thread_pool pool(threadCount);
     std::cout << "Running on " << threadCount << " threads" << std::endl;
 
+    #pragma omp parallel for schedule(dynamic, 16) num_threads(threadCount)
     for (int x = 0; x < m_width; x++) {
         for (int y = 0; y < m_height; y++) {
-            pool.submit_task([x, y, this, pixelSamplesScale, outputFile] {
-                Vector3 color;
+            Vector3 color;
 
-                for (int i = 0; i < samplesPerPixel; i++) {
-                    Ray ray = m_camera->GetRay(x, y);
-                    color += m_camera->RayColor(*m_scene, ray, maxDepth);
-                }
+            for (int i = 0; i < samplesPerPixel; i++) {
+                Ray ray = m_camera->GetRay(x, y);
+                color += m_camera->RayColor(*m_scene, ray, maxDepth);
+            }
 
-                color *= pixelSamplesScale;
+            color *= pixelSamplesScale;
 
-                m_image->SetPixel(x, y, color);
-            });
+            m_image->SetPixel(x, y, color);
         }
     }
-
-    pool.wait();
 
     if (!outputFile.empty())
         m_image->Save(outputFile);
