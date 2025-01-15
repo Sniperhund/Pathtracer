@@ -8,6 +8,7 @@
 #include <iostream>
 #include <limits>
 #include <memory>
+#include <stdexcept>
 
 // Constants
 
@@ -20,9 +21,7 @@ inline float DegreesToRadians(float degrees) {
     return degrees * pi / 180.0f;
 }
 
-inline float RandomFloat() {
-    return rand() / (RAND_MAX + 1.0f);
-}
+float RandomFloat();
 
 inline float RandomFloat(float min, float max) {
     return min + (max - min) * RandomFloat();

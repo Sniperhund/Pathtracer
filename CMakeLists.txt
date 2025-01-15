@@ -13,6 +13,7 @@ add_library(Pathtracer src/Image.h src/Math/Vector3.h
         src/Objects/Sphere.h
         src/Objects/Scene.h
         src/Math/Utility.h
+        src/Math/Utility.cpp
         src/Pathtracer.h
         src/Material/Material.h
         src/Material/Lambertian.h
