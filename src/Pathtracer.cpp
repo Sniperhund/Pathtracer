@@ -21,19 +21,26 @@ void Pathtracer::Render(std::string outputFile) {
 
     BS::thread_pool pool(threadCount);
 
-    for (int x = 0; x < m_width; x++) {
-        for (int y = 0; y < m_height; y++) {
+    for (int x = 0; x < m_width; x += batchSize) {
+        for (int y = 0; y < m_height; y += batchSize) {
             auto _ = pool.submit_task([x, y, this, pixelSamplesScale, outputFile] {
-                Vector3 color;
+                for (int dx = 0; dx < batchSize; dx++) {
+                    for (int dy = 0; dy < batchSize; dy++) {
+                        if (x + dx >= m_width || y + dy >= m_height)
+                            continue;
 
-                for (int i = 0; i < samplesPerPixel; i++) {
-                    Ray ray = m_camera->GetRay(x, y);
-                    color += m_camera->RayColor(*m_scene, ray, maxDepth);
+                        Vector3 color;
+
+                        for (int i = 0; i < samplesPerPixel; i++) {
+                            Ray ray = m_camera->GetRay(x + dx, y + dy);
+                            color += m_camera->RayColor(*m_scene, ray, maxDepth);
+                        }
+
+                        color *= pixelSamplesScale;
+
+                        m_image->SetPixel(x + dx, y + dy, color);
+                    }
                 }
-
-                color *= pixelSamplesScale;
-
-                m_image->SetPixel(x, y, color);
             });
         }
     }
