@@ -33,7 +33,6 @@ target_include_directories(Pathtracer PUBLIC ./src)
 project(Pathtracer-exe)
 
 add_executable(Pathtracer-exe src/main.cpp)
-
 target_link_libraries(Pathtracer-exe Pathtracer)
 
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -march=native -ffast-math -funroll-loops")
+set(CMAKE_CXX_FLAGS "-march=native -ffast-math -funroll-loops")

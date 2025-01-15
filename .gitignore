@@ -5,7 +5,7 @@ build
 
 CMakeFiles
 
-output.png
+output*.png
 .idea
 
 *.cmake

@@ -18,7 +18,7 @@ int main() {
     pathtracer.Resize(1280, 720);
     pathtracer.samplesPerPixel = 10;
     pathtracer.maxDepth = 2;
-    pathtracer.threadCount = 24;
+    pathtracer.threadCount = 8;
     pathtracer.batchSize = 64;
     pathtracer.antialias = true;
 
